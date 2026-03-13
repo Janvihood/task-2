@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "secure-app"
-        SONAR_TOKEN = "YOUR_SONAR_TOKEN"
+        SONAR_TOKEN = "squ_a4191dddd07437c399fcc0be16bf985c45d110e1"
     }
 
     stages {
