@@ -28,7 +28,7 @@ pipeline {
         stage('Dependency Scan') {
             steps {
                 sh '''
-                /root/dependency-check/bin/dependency-check.sh \
+                /opt/dependency-check/bin/dependency-check.sh --scan . --format HTML --out reports \
                 --scan . \
                 --format HTML
                 '''
