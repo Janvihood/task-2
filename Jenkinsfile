@@ -1,26 +1,25 @@
 pipeline {
     agent any
-
     environment {
-        // Set paths to tools inside Jenkins container
         SONAR_SCANNER = "/opt/sonar-scanner/bin/sonar-scanner"
         DEP_CHECK    = "/opt/dependency-check/bin/dependency-check.sh"
         REPORTS_DIR  = "reports"
-        SONAR_TOKEN  = "squ_4fcc7688de74566c4c8b90cece08171b73dd17b9" // replace if needed
+        SONAR_TOKEN  = "squ_4fcc7688de74566c4c8b90cece08171b73dd17b9"
     }
-
     stages {
+        stage('Prepare Workspace') {
+            steps {
+                // Clean workspace and ensure reports folder exists
+                sh "rm -rf ${WORKSPACE}/${REPORTS_DIR}"
+                sh "mkdir -p ${WORKSPACE}/${REPORTS_DIR}"
+            }
+        }
+
         stage('Checkout SCM') {
             steps {
                 checkout([$class: 'GitSCM',
                           branches: [[name: '*/main']],
                           userRemoteConfigs: [[url: 'https://github.com/Janvihood/task-2.git']]])
-            }
-        }
-
-        stage('Create Reports Folder') {
-            steps {
-                sh "mkdir -p ${REPORTS_DIR}"
             }
         }
 
