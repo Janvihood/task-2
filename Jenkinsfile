@@ -19,7 +19,7 @@ pipeline {
                 sh '''
                 /opt/sonar-scanner/bin/sonar-scanner \
                 -Dsonar.projectKey=SecureApp \
-                -Dsonar.host.url=http://host.docker.internal:9000 \
+                -Dsonar.host.url=http://sonarqube:9000 \
                 -Dsonar.login=$SONAR_TOKEN
                 '''
             }
