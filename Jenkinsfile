@@ -27,11 +27,8 @@ pipeline {
 
         stage('Dependency Scan') {
             steps {
-                sh '''
-                /opt/dependency-check/bin/dependency-check.sh --scan . --format HTML --out reports \
-                --scan . \
-                --format HTML
-                '''
+                sh '/opt/dependency-check/bin/dependency-check.sh --scan . --format HTML --out reports/'
+        archiveArtifacts artifacts: 'reports/dependency-check-report.html', allowEmptyArchive: true
             }
         }
 
