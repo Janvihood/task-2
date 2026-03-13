@@ -17,7 +17,7 @@ pipeline {
         stage('SAST Scan') {
             steps {
                 sh '''
-                sonar-scanner \
+                /opt/sonar-scanner/bin/sonar-scanner \
                 -Dsonar.projectKey=SecureApp \
                 -Dsonar.host.url=http://localhost:9000 \
                 -Dsonar.login=$SONAR_TOKEN
@@ -28,7 +28,7 @@ pipeline {
         stage('Dependency Scan') {
             steps {
                 sh '''
-                dependency-check/bin/dependency-check.sh \
+                /root/dependency-check/bin/dependency-check.sh \
                 --scan . \
                 --format HTML
                 '''
@@ -60,11 +60,13 @@ pipeline {
         always {
             archiveArtifacts artifacts: '**/dependency-check-report.html', allowEmptyArchive: true
         }
+
         success {
             echo "Pipeline finished successfully!"
         }
+
         failure {
-            echo "Pipeline failed, check logs!"
+            echo "Pipeline failed. Check logs."
         }
     }
 }
