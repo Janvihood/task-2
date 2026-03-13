@@ -10,7 +10,7 @@ pipeline {
             steps { git 'https://github.com/Janvihood/task-2.git' }
         }
         stage('SAST Scan') {
-            steps { sh 'sonar-scanner -Dsonar.projectKey=SecureApp -Dsonar.host.url=http://localhost:9000 -Dsonar.login=squ_ff918720b041276bdccce2c20dc27de893855b96' }
+            steps { sh 'sonar-scanner -Dsonar.projectKey=SecureApp -Dsonar.host.url=http://localhost:9000 -Dsonar.login=squ_a4191dddd07437c399fcc0be16bf985c45d110e1' }
         }
         stage('Dependency Scan') {
             steps { sh './dependency-check/bin/dependency-check.sh --scan . --format HTML' }
