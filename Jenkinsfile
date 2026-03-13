@@ -2,69 +2,67 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "secure-app"
-        SONAR_TOKEN = "squ_4fcc7688de74566c4c8b90cece08171b73dd17b9"
+        // Set paths to tools inside Jenkins container
+        SONAR_SCANNER = "/opt/sonar-scanner/bin/sonar-scanner"
+        DEP_CHECK    = "/opt/dependency-check/bin/dependency-check.sh"
+        REPORTS_DIR  = "reports"
+        SONAR_TOKEN  = "squ_4fcc7688de74566c4c8b90cece08171b73dd17b9" // replace if needed
     }
 
     stages {
-
-        stage('Checkout Code') {
+        stage('Checkout SCM') {
             steps {
-                git branch: 'main', url: 'https://github.com/Janvihood/task-2.git'
+                checkout([$class: 'GitSCM',
+                          branches: [[name: '*/main']],
+                          userRemoteConfigs: [[url: 'https://github.com/Janvihood/task-2.git']]])
+            }
+        }
+
+        stage('Create Reports Folder') {
+            steps {
+                sh "mkdir -p ${REPORTS_DIR}"
             }
         }
 
         stage('SAST Scan') {
             steps {
-                sh '''
-                /opt/sonar-scanner/bin/sonar-scanner \
-                -Dsonar.projectKey=SecureApp \
-                -Dsonar.host.url=http://sonarqube:9000 \
-                -Dsonar.login=$SONAR_TOKEN
-                '''
+                sh "${SONAR_SCANNER} -Dsonar.projectKey=SecureApp -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${SONAR_TOKEN}"
             }
         }
 
         stage('Dependency Scan') {
             steps {
-                sh '/opt/dependency-check/bin/dependency-check.sh --scan . --format HTML --out reports/'
-        archiveArtifacts artifacts: 'reports/dependency-check-report.html', allowEmptyArchive: true
+                sh "${DEP_CHECK} --scan . --format HTML -o ${REPORTS_DIR}"
             }
         }
 
         stage('Docker Build') {
             steps {
-                sh "docker build -t ${DOCKER_IMAGE} ."
+                sh 'docker build -t secureapp:latest .'
             }
         }
 
         stage('Image Scan') {
             steps {
-                sh "trivy image ${DOCKER_IMAGE}"
+                sh 'trivy fs --security-checks vuln .'
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh "kind load docker-image ${DOCKER_IMAGE} --name devsecops-cluster"
-                sh "kubectl apply -f deployment.yaml"
-                sh "kubectl apply -f service.yaml"
+                sh 'kubectl apply -f deployment.yaml'
+                sh 'kubectl apply -f service.yaml'
             }
         }
-
     }
 
     post {
         always {
-            archiveArtifacts artifacts: '**/dependency-check-report.html', allowEmptyArchive: true
+            archiveArtifacts artifacts: "${REPORTS_DIR}/*", allowEmptyArchive: true
+            echo "Build and scans finished! Check reports in Jenkins."
         }
-
-        success {
-            echo "Pipeline finished successfully!"
-        }
-
         failure {
-            echo "Pipeline failed. Check logs."
+            echo "Pipeline failed. Check logs for errors."
         }
     }
 }
