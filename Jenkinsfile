@@ -10,8 +10,7 @@ pipeline {
         stage('Prepare Workspace') {
             steps {
                 // Clean workspace and ensure reports folder exists
-                sh "rm -rf ${WORKSPACE}/${REPORTS_DIR}"
-                sh "mkdir -p ${WORKSPACE}/${REPORTS_DIR}"
+                sh 'rm -rf reports && mkdir -p reports'
             }
         }
 
