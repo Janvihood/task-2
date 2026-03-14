@@ -40,9 +40,9 @@ stages {
     }
     stage('Docker Image Scan') {
         steps {
-            sh '''
-            sh 'docker run --rm aquasec/trivy image secure-app' 
-            '''
+          sh '''
+          docker run --rm aquasec/trivy image secure-app
+          '''
         }
     }
 
