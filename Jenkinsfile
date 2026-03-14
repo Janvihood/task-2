@@ -60,7 +60,5 @@ post {
         archiveArtifacts artifacts: 'reports/*', allowEmptyArchive: true
     }
 }
-```
 
 }
-
