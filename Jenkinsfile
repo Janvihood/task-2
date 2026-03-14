@@ -35,7 +35,7 @@ pipeline {
         stage('Docker Image Scan') {
             steps {
                 sh '''
-                docker run --rm aquasec/trivy image --skip-db-update secure-app || true
+                docker run --rm aquasec/trivy image secure-app || true
                 '''
             }
         }
