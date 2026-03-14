@@ -31,6 +31,23 @@ stages {
         }
     }
 
+    stage('Docker Image Scan') {
+        steps {
+            sh '''
+            trivy image nginx
+            '''
+        }
+    }
+
+    stage('Deploy to Kubernetes') {
+        steps {
+            sh '''
+            kubectl apply -f deployment.yaml
+            kubectl apply -f service.yaml
+            '''
+        }
+    }
+
     stage('Dependency Check') {
         steps {
         echo "Skipping OWASP Dependency Check to speed up pipeline"
