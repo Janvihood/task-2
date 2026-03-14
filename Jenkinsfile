@@ -1,7 +1,6 @@
 pipeline {
 agent any
 
-```
 environment {
     SONAR_SCANNER = "/opt/sonar-scanner/bin/sonar-scanner"
     DEP_CHECK = "/opt/dependency-check/bin/dependency-check.sh"
