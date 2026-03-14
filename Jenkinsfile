@@ -38,6 +38,7 @@ stages {
         '''
         }
     }
+
     stage('Docker Image Scan') {
         steps {
           sh '''
@@ -45,6 +46,16 @@ stages {
           '''
         }
     }
+
+    
+     stage('Docker Image Scan') {
+    steps {
+        sh '''
+        docker run --rm aquasec/trivy image --skip-db-update secure-app || true
+        '''
+         }
+     }
+
 
     stage('Deploy to Kubernetes') {
         steps {
