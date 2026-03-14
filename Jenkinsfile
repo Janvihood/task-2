@@ -41,7 +41,7 @@ stages {
     stage('Docker Image Scan') {
         steps {
             sh '''
-            docker build -t secure-app 
+            sh 'docker run --rm aquasec/trivy image secure-app' 
             '''
         }
     }
