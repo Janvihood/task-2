@@ -48,9 +48,9 @@ stages {
         }
     }
 
-    stage('Build Test') {
+    stage('Pipeline Finished') {
         steps {
-            echo "Pipeline ran successfully"
+            echo "Pipeline executed"
         }
     }
 
