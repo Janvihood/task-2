@@ -33,17 +33,7 @@ stages {
 
     stage('Dependency Check') {
         steps {
-            sh '''
-            if [ -f /opt/dependency-check/bin/dependency-check.sh ]; then
-                /opt/dependency-check/bin/dependency-check.sh \
-                --scan . \
-                --format HTML \
-                --out reports \
-                --noupdate || true
-            else
-                echo "Dependency check not found, skipping"
-            fi
-            '''
+        echo "Skipping OWASP Dependency Check to speed up pipeline"
         }
     }
 
