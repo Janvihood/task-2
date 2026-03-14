@@ -30,11 +30,18 @@ stages {
             '''
         }
     }
-
+    
+    stage('Build Docker Image') {
+    steps {
+        sh '''
+        docker build -t secure-app .
+        '''
+        }
+    }
     stage('Docker Image Scan') {
         steps {
             sh '''
-            trivy image nginx
+            docker build -t secure-app 
             '''
         }
     }
