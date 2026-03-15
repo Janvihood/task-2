@@ -14,6 +14,7 @@ pipeline {
      steps {
         sh '''
         docker run --rm \
+        --network host \
         -e SONAR_HOST_URL="http://localhost:9000" \
         -e SONAR_LOGIN="squ_4fcc7688de74566c4c8b90cece08171b73dd17b9" \
         -v $(pwd):/usr/src \
