@@ -19,6 +19,8 @@ pipeline {
         -e SONAR_TOKEN="squ_7fe703de969819b0b6ac084e230ecffb24578ffb" \
         -v $(pwd):/usr/src \
         sonarsource/sonar-scanner-cli
+        -Dsonar.projectKey=task-2 \
+        -Dsonar.sources=.
         '''
             }
         }
