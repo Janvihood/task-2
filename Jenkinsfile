@@ -16,7 +16,7 @@ pipeline {
         docker run --rm \
         --network host \
         -e SONAR_HOST_URL="http://localhost:9000" \
-        -e SONAR_LOGIN="squ_393ad6a63d42cbfc28a7318f8a97a6b24714b85d" \
+        -e SONAR_LOGIN="squ_7fe703de969819b0b6ac084e230ecffb24578ffb" \
         -v $(pwd):/usr/src \
         sonarsource/sonar-scanner-cli
         '''
