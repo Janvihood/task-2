@@ -11,20 +11,18 @@ pipeline {
         }
 
         stage('SonarQube Scan') {
-     steps {
+    steps {
         sh '''
-        docker run --rm \
-        --network host \
-        -e SONAR_HOST_URL="http://localhost:9000" \
-        -e SONAR_TOKEN="squ_7fe703de969819b0b6ac084e230ecffb24578ffb" \
-        -v $(pwd):/usr/src \
+        docker run --rm --network host \
+        -e SONAR_HOST_URL=http://localhost:9000 \
+        -e SONAR_TOKEN=squ_7fe703de969819b0b6ac084e230ecffb24578ffb \
+        -e SONAR_SCANNER_OPTS="-Xmx512m -Dsonar.ws.timeout=300" \
+        -v $WORKSPACE:/usr/src \
+        -w /usr/src \
         sonarsource/sonar-scanner-cli
-        -Dsonar.projectKey=task-2 \
-        -Dsonar.sources=.
         '''
             }
         }
-
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t secure-app .'
