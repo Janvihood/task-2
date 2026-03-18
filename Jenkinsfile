@@ -11,15 +11,16 @@ pipeline {
         }
 
         stage('SonarQube Scan') {
-    steps {
+     steps {
         sh '''
         docker run --rm --network host \
-        -e SONAR_HOST_URL=http://localhost:9000 \
-        -e SONAR_TOKEN=squ_44bfb9d597524e9fedfc9b576e5c69ff9a6a046d \
-        -e SONAR_SCANNER_OPTS="-Xmx512m -Dsonar.ws.timeout=300" \
-        -v $WORKSPACE:/usr/src \
+        -v /var/jenkins_home/workspace/task-2:/usr/src \
         -w /usr/src \
-        sonarsource/sonar-scanner-cli
+        sonarsource/sonar-scanner-cli \
+        -Dsonar.projectKey=task-2 \
+        -Dsonar.sources=. \
+        -Dsonar.host.url=http://localhost:9000 \
+        -Dsonar.login=squ_44bfb9d597524e9fedfc9b576e5c69ff9a6a046d
         '''
             }
         }
