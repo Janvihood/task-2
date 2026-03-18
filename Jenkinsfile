@@ -15,7 +15,7 @@ pipeline {
         sh '''
         docker run --rm --network host \
         -e SONAR_HOST_URL=http://localhost:9000 \
-        -e SONAR_TOKEN=squ_7fe703de969819b0b6ac084e230ecffb24578ffb \
+        -e SONAR_TOKEN=squ_44bfb9d597524e9fedfc9b576e5c69ff9a6a046d \
         -e SONAR_SCANNER_OPTS="-Xmx512m -Dsonar.ws.timeout=300" \
         -v $WORKSPACE:/usr/src \
         -w /usr/src \
