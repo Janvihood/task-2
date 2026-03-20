@@ -34,10 +34,8 @@ pipeline {
 
         stage('Trivy Security Scan') {
              steps {
-                  sh '''
-                  docker run --rm \
-                  -v $(pwd):/project \
-                  aquasec/trivy fs /project || true
+                   sh '''
+                  docker run --rm aquasec/trivy image secure-app
                   '''
               }
          }
@@ -45,9 +43,12 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                kubectl apply -f deployment.yaml
-                kubectl apply -f service.yaml
-                '''
+        docker run --rm \
+        -v /var/jenkins_home/workspace/task-2:/workspace \
+        -v ~/.kube:/root/.kube \
+        bitnami/kubectl:latest \
+        kubectl apply -f /workspace/deployment.yaml
+        '''
             }
         }
 
