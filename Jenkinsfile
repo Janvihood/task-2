@@ -16,11 +16,13 @@ pipeline {
         docker run --rm --network host \
         -v /var/jenkins_home/workspace/task-2:/usr/src \
         -w /usr/src \
+        -e SONAR_SCANNER_OPTS="-Xmx512m" \
         sonarsource/sonar-scanner-cli \
         -Dsonar.projectKey=task-2 \
         -Dsonar.sources=. \
         -Dsonar.host.url=http://localhost:9000 \
-        -Dsonar.login=squ_44bfb9d597524e9fedfc9b576e5c69ff9a6a046d
+        -Dsonar.token=squ_44bfb9d597524e9fedfc9b576e5c69ff9a6a046d \
+        -Dsonar.scanner.socketTimeout=300
         '''
             }
         }
