@@ -1,62 +1,74 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "secure-app"
+        SONAR_HOST = "http://localhost:9000"
+        SONAR_TOKEN = "squ_44bfb9d597524e9fedfc9b576e5c69ff9a6a046d"
+    }
+
     stages {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/Janvihood/task-2.git'
-                sh 'mkdir -p reports'
+                git 'https://github.com/Janvihood/task-2.git'
             }
         }
 
         stage('SonarQube Scan') {
-     steps {
-        sh '''
+            steps {
+                 sh '''
         docker run --rm --network host \
-        -v /var/jenkins_home/workspace/task-2:/usr/src \
+        -v $(pwd):/usr/src \
+        -v sonar_cache:/opt/sonar-scanner/.sonar \
         -w /usr/src \
         -e SONAR_SCANNER_OPTS="-Xmx512m" \
         sonarsource/sonar-scanner-cli \
-        -Dsonar.projectKey=task-2 \
-        -Dsonar.sources=. \
-        -Dsonar.host.url=http://localhost:9000 \
-        -Dsonar.token=squ_44bfb9d597524e9fedfc9b576e5c69ff9a6a046d \
-        -Dsonar.scanner.socketTimeout=300
+        -Dsonar.host.url=${SONAR_HOST} \
+        -Dsonar.token=${SONAR_TOKEN}
         '''
             }
         }
+
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t secure-app .'
+                sh 'docker build -t $IMAGE_NAME .'
             }
         }
 
-        stage('Trivy Security Scan') {
-             steps {
-                   sh '''
-                  docker run --rm aquasec/trivy image secure-app
-                  '''
-              }
-         }
+        stage('Trivy Image Scan') {
+            steps {
+                 sh '''
+        docker run --rm \
+        -v /var/run/docker.sock:/var/run/docker.sock \
+        -v trivy_cache:/root/.cache/trivy \
+        aquasec/trivy image secure-app
+        '''
+            }
+        }
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh '''
-        docker run --rm \
-        -v /var/jenkins_home/workspace/task-2:/workspace \
-        -v ~/.kube:/root/.kube \
-        bitnami/kubectl:latest \
-        kubectl apply -f /workspace/deployment.yaml
-        '''
+                sh """
+                docker run --rm \
+                -v \root/.kube:/root/.kube \
+                -v \$(pwd):/workspace \
+                bitnami/kubectl \
+                kubectl apply -f /workspace/deployment.yaml
+                """
             }
         }
+    }
 
-        stage('Pipeline Finished') {
-            steps {
-                echo "Pipeline executed successfully"
-            }
+    post {
+        always {
+            echo "Pipeline completed."
         }
-
+        success {
+            echo "SUCCESS 🚀"
+        }
+        failure {
+            echo "FAILED ❌"
+        }
     }
 }

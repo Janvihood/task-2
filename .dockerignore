@@ -1,7 +1,8 @@
 .git
 .gitignore
 *.deb
-reports
-node_modules
-__pycache__
+reports/
+node_modules/
+__pycache__/
 *.log
+*.pyc
