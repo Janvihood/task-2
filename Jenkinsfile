@@ -16,11 +16,7 @@ pipeline {
         -v $(pwd):/usr/src \
         -v sonar_cache:/opt/sonar-scanner/.sonar \
         -w /usr/src \
-        -e SONAR_SCANNER_OPTS="-Xmx512m" \
         sonarsource/sonar-scanner-cli \
-        -Dsonar.projectKey=secure-app \
-        -Dsonar.projectName=secure-app \
-        -Dsonar.sources=. \
         -Dsonar.host.url=${SONAR_HOST} \
         -Dsonar.token=${SONAR_TOKEN}
         '''
@@ -51,7 +47,7 @@ pipeline {
                 -v /root/.kube:/root/.kube \
                 -v \$(pwd):/workspace \
                 bitnami/kubectl \
-                kubectl apply -f /workspace/deployment.yaml
+                apply -f /workspace/deployment.yaml
                 """
             }
         }
