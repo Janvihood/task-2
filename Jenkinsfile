@@ -17,6 +17,9 @@ pipeline {
         -v sonar_cache:/opt/sonar-scanner/.sonar \
         -w /usr/src \
         sonarsource/sonar-scanner-cli \
+        -Dsonar.projectKey=task-2 \
+        -Dsonar.projectName=task-2 \
+        -Dsonar.sources=. \
         -Dsonar.host.url=${SONAR_HOST} \
         -Dsonar.token=${SONAR_TOKEN}
         '''
