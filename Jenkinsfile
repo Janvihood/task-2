@@ -11,16 +11,19 @@ pipeline {
 
         stage('SonarQube Scan') {
             steps {
-                sh '''
-                docker run --rm --network host \
-                -v $(pwd):/usr/src \
-                -v sonar_cache:/opt/sonar-scanner/.sonar \
-                -w /usr/src \
-                -e SONAR_SCANNER_OPTS="-Xmx512m" \
-                sonarsource/sonar-scanner-cli \
-                -Dsonar.host.url=${SONAR_HOST} \
-                -Dsonar.token=${SONAR_TOKEN}
-                '''
+                 sh '''
+        docker run --rm --network host \
+        -v $(pwd):/usr/src \
+        -v sonar_cache:/opt/sonar-scanner/.sonar \
+        -w /usr/src \
+        -e SONAR_SCANNER_OPTS="-Xmx512m" \
+        sonarsource/sonar-scanner-cli \
+        -Dsonar.projectKey=secure-app \
+        -Dsonar.projectName=secure-app \
+        -Dsonar.sources=. \
+        -Dsonar.host.url=${SONAR_HOST} \
+        -Dsonar.token=${SONAR_TOKEN}
+        '''
             }
         }
 
