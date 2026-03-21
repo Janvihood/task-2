@@ -7,13 +7,6 @@ pipeline {
         SONAR_TOKEN = "squ_44bfb9d597524e9fedfc9b576e5c69ff9a6a046d"
     }
 
-    stages {
-
-        stage('Checkout Code') {
-            steps {
-                git 'https://github.com/Janvihood/task-2.git'
-            }
-        }
 
         stage('SonarQube Scan') {
             steps {
