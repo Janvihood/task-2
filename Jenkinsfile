@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = "secure-app"
         SONAR_HOST = "http://host.docker.internal:9000"
-        SONAR_TOKEN = squ_44bfb9d597524e9fedfc9b576e5c69ff9a6a046d
+        SONAR_TOKEN = "squ_44bfb9d597524e9fedfc9b576e5c69ff9a6a046d"
         DEPLOYMENT_FILE = "deployment.yaml"
         KUBECONFIG = "/root/.kube/config"
     }
