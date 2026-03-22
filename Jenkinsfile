@@ -45,6 +45,7 @@ pipeline {
                 sonarsource/sonar-scanner-cli \
                 -Dsonar.projectKey=task-2 \
                 -Dsonar.projectName=task-2 \
+                -Dsonar.inclusions=**/*.py \
                 -Dsonar.sources=. \
                 -Dsonar.exclusions=**/*.yaml,**/*.yml,**/node_modules/** \
                 -Dsonar.host.url=${SONAR_HOST} \
