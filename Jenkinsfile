@@ -17,6 +17,17 @@ pipeline {
            }
         }
 
+        stage('Debug Files') {
+           steps {
+               sh '''
+               echo "Current directory:"
+               pwd
+               echo "Files:"
+               ls -la
+               '''
+           }
+        }
+
         stage('SonarQube Scan') {
             steps {
                 sh """
@@ -27,8 +38,10 @@ pipeline {
                 sonarsource/sonar-scanner-cli \
                 -Dsonar.projectKey=task-2 \
                 -Dsonar.projectName=task-2 \
-                -Dsonar.sources=/usr/src \
+                -Dsonar.sources=. \
+                -Dsonar.exclusions=**/*.yaml,**/*.yml,**/node_modules/** \
                 -Dsonar.host.url=${SONAR_HOST} \
+                -Dsonar.python.file.suffixes=.py \
                 -Dsonar.login=${SONAR_TOKEN}
                 """
             }
