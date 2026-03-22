@@ -72,9 +72,8 @@ pipeline {
                   
                 fi
                 export KUBECONFIG=/var/jenkins_home/kubeconfig
-                ./kubectl version --client
-                ./kubectl get nodes
-                ./kubectl apply -f deployment.yaml --validate=false 
+                kubectl get nodes
+                kubectl apply -f deployment.yaml  
             
                 '''
             }
