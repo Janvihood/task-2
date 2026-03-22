@@ -11,6 +11,11 @@ pipeline {
     }
 
     stages {
+        stage('Check Docker') {
+            steps {
+                sh 'docker --version'
+           }
+        }
 
         stage('SonarQube Scan') {
             steps {
