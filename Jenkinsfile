@@ -66,8 +66,8 @@ pipeline {
                   
                 fi
 
-                kubectl version --client
-                kubectl apply -f ${DEPLOYMENT_FILE} --validate=false
+                ./kubectl version --client
+                ./kubectl apply -f ${DEPLOYMENT_FILE} --validate=false
                 '''
             }
         }
