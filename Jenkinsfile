@@ -7,6 +7,7 @@ pipeline {
         SONAR_TOKEN = "squ_44bfb9d597524e9fedfc9b576e5c69ff9a6a046d"
         DEPLOYMENT_FILE = "deployment.yaml"
         PATH = "/usr/local/bin:${env.PATH}"
+        KUBECONFIG = "/var/jenkins_home/kubeconfig"
     }
 
     stages {
@@ -58,16 +59,18 @@ pipeline {
             steps {
                 sh '''
                 # Install kubectl if missing
-                if ! command -v kubectl >/dev/null 2>&1
+                if [ ! -f kubectl ];
                 then
                   echo "Installing kubectl..."
                   curl -LO https://dl.k8s.io/release/v1.29.0/bin/linux/amd64/kubectl
                   chmod +x kubectl
                   
                 fi
-
+                export KUBECONFIG=/var/jenkins_home/kubeconfig
                 ./kubectl version --client
-                ./kubectl apply -f ${DEPLOYMENT_FILE} --validate=false
+                ./kubectl get nodes
+                ./kubectl apply -f deployment.yaml --validate=false 
+            
                 '''
             }
         }
