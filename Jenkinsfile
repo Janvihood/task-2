@@ -51,14 +51,7 @@ pipeline {
 
 	stage('Deploy to Kubernetes') {
             steps {
-                 sh '''
-        docker run --rm \
-        --network host \
-        --volumes-from jenkins \
-        -v /root/.kube:/root/.kube \
-        bitnami/kubectl \
-        apply -f /var/jenkins_home/workspace/task-2/deployment.yaml --validate=false
-        '''
+                 sh 'kubectl apply -f /root/devsecops-project/deployment.yaml --validate=false'
             }
         }
     }
