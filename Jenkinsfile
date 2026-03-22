@@ -54,7 +54,7 @@ pipeline {
                 sh """
                 docker run --rm \
                 -v /root/.kube:/root/.kube \
-                -v \$(pwd):/workspace \
+                -v \$WORKSPACE:/workspace \
                 bitnami/kubectl \
                 apply -f /workspace/deployment.yaml
                 """
