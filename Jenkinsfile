@@ -51,13 +51,13 @@ pipeline {
 
 	stage('Deploy to Kubernetes') {
             steps {
-                sh """
-                docker run --rm \
-                -v /root/.kube:/root/.kube \
-                -v \$WORKSPACE:/workspace \
-                bitnami/kubectl \
-                apply -f /workspace/deployment.yaml
-                """
+                sh '''
+        docker run --rm \
+        --volumes-from jenkins \
+        -v /root/.kube:/root/.kube \
+        bitnami/kubectl \
+        kubectl apply -f /var/jenkins_home/workspace/task-2/deployment.yaml
+        '''
             }
         }
     }
