@@ -38,7 +38,7 @@ pipeline {
                 docker run --rm \
                 -v /var/run/docker.sock:/var/run/docker.sock \
                 -v trivy_cache:/root/.cache/trivy \
-                aquasec/trivy image secure-app
+                aquasec/trivy image $IMAGE_NAME
                 '''
             }
         }
@@ -51,7 +51,7 @@ pipeline {
 
 	stage('Deploy to Kubernetes') {
             steps {
-                 sh 'kubectl apply -f /root/devsecops-project/deployment.yaml --validate=false'
+                 sh "kubectl apply -f ${DEPLOYMENT_FILE} --validate=false"
             }
         }
     }

@@ -15,6 +15,6 @@ spec:
       containers:
       - name: secure-app
         image: secure-app:latest
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 5000
+        - containerPort: 8080
