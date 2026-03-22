@@ -11,18 +11,18 @@ pipeline {
 
         stage('SonarQube Scan') {
             steps {
-                 sh '''
+                 sh """
         docker run --rm --network host \
-        -v $(pwd):/usr/src \
+        -v \$(pwd):/usr/src \
         -v sonar_cache:/opt/sonar-scanner/.sonar \
         -w /usr/src \
         sonarsource/sonar-scanner-cli \
         -Dsonar.projectKey=task-2 \
         -Dsonar.projectName=task-2 \
-        -Dsonar.sources=. \
+        -Dsonar.sources=/usr/src \
         -Dsonar.host.url=${SONAR_HOST} \
-        -Dsonar.token=${SONAR_TOKEN}
-        '''
+        -Dsonar.login=${SONAR_TOKEN}
+        """
             }
         }
 
@@ -43,7 +43,13 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Debug Workspace') {
+            steps {
+                sh 'pwd && ls -la'
+            }
+        }
+
+	stage('Deploy to Kubernetes') {
             steps {
                 sh """
                 docker run --rm \
