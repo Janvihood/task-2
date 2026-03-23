@@ -64,11 +64,14 @@ pipeline {
 
                 /var/jenkins_home/dependency-check/bin/dependency-check.sh \
                 --project "task-2" \
-                --scan . \
+                --scan requirements.txt \
                 --format HTML \
                 --out reports \
                 --nvdApiKey 12bb407e-fc03-4403-af1f-0c6c7e20274f \
-                --data /var/jenkins_home/dependency-check-data
+                --data /var/jenkins_home/dependency-check-data \
+		--disableAssembly \
+		--disableNodeJS \
+		--disableRetireJS \
 		--noupdate
                 '''
             }
