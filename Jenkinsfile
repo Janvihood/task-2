@@ -37,19 +37,33 @@ pipeline {
 
         stage('SonarQube Scan') {
             steps {
-                sh """
-                docker run --rm --network host \
-                -v \$(pwd):/usr/src \
-                -v sonar_cache:/opt/sonar-scanner/.sonar \
-                -w /usr/src \
-                sonarsource/sonar-scanner-cli \
-                -Dsonar.projectKey=task-2 \
-                -Dsonar.projectName=task-2 \
-                -Dsonar.sources=. \
-                -Dsonar.host.url=${SONAR_HOST} \
-                -Dsonar.python.file.suffixes=.py \
-                -Dsonar.login=${SONAR_TOKEN}
-                """
+           sh '''
+            echo "========== DEBUG START =========="
+            echo "Workspace: $WORKSPACE"
+
+            echo "Files in workspace:"
+            ls -la $WORKSPACE
+
+            echo "Python files:"
+            find $WORKSPACE -name "*.py"
+
+            echo "========== VERIFY INSIDE DOCKER =========="
+            docker run --rm --network host \
+            -v $WORKSPACE:/usr/src \
+            alpine sh -c "echo 'Inside container:' && ls -la /usr/src && find /usr/src -name '*.py'"
+
+            echo "========== RUNNING SONAR =========="
+            docker run --rm --network host \
+            -v $WORKSPACE:/usr/src \
+            -v sonar_cache:/opt/sonar-scanner/.sonar \
+            -w /usr/src \
+            sonarsource/sonar-scanner-cli \
+            -Dsonar.projectKey=task-2 \
+            -Dsonar.projectName=task-2 \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.token=$SONAR_TOKEN
+            '''
             }
         }
 
