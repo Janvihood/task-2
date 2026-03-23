@@ -95,13 +95,15 @@ pipeline {
                 sh '''
         echo "Deploying..."
 
-        su jenkins -c 'export KUBECONFIG=/var/jenkins_home/.kube/config && kubectl config view'
+        export KUBECONFIG=/var/jenkins_home/.kube/config
 
-        su jenkins -c 'export KUBECONFIG=/var/jenkins_home/.kube/config && kubectl get nodes'
+        echo "Using kubeconfig:"
+        kubectl config view | grep server
 
-        su jenkins -c 'export KUBECONFIG=/var/jenkins_home/.kube/config && kubectl apply -f deployment.yaml'
+        kubectl get nodes
 
-        su jenkins -c 'export KUBECONFIG=/var/jenkins_home/.kube/config && kubectl apply -f service.yaml'
+        kubectl apply -f deployment.yaml
+        kubectl apply -f service.yaml
         '''
             }
         }
