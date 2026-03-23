@@ -46,7 +46,6 @@ pipeline {
                 -Dsonar.projectKey=task-2 \
                 -Dsonar.projectName=task-2 \
                 -Dsonar.sources=. \
-                -Dsonar.exclusions=**/*.yaml,**/*.yml,**/node_modules/** \
                 -Dsonar.host.url=${SONAR_HOST} \
                 -Dsonar.python.file.suffixes=.py \
                 -Dsonar.login=${SONAR_TOKEN}
