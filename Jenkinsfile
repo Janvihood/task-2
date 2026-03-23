@@ -69,6 +69,7 @@ pipeline {
                 --out reports \
                 --nvdApiKey 12bb407e-fc03-4403-af1f-0c6c7e20274f \
                 --data /var/jenkins_home/dependency-check-data
+		--noupdate
                 '''
             }
             post {
