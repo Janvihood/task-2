@@ -72,7 +72,6 @@ pipeline {
 		--disableAssembly \
 		--disableNodeJS \
 		--disableRetireJS \
-		--noupdate
                 '''
             }
             post {
