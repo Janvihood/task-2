@@ -93,19 +93,13 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                # Install kubectl if missing
-                if [ ! -f kubectl ];
-                then
-                  echo "Installing kubectl..."
-                  curl -LO https://dl.k8s.io/release/v1.29.0/bin/linux/amd64/kubectl
-                  chmod +x kubectl
-                  
-                fi
-                export KUBECONFIG=/var/jenkins_home/kubeconfig
-                kubectl get nodes
-                kubectl apply -f deployment.yaml  
-            
-                '''
+        echo "Deploying to Kubernetes..."
+
+        kubectl get nodes
+
+        kubectl apply -f deployment.yaml
+        kubectl apply -f service.yaml
+        '''
             }
         }
     }
