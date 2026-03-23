@@ -93,12 +93,15 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-        echo "Deploying to Kubernetes..."
+        echo "Deploying..."
 
-        su jenkins -c 'kubectl get nodes'
+        su jenkins -c 'export KUBECONFIG=/var/jenkins_home/.kube/config && kubectl config view'
 
-        su jenkins -c 'kubectl apply -f deployment.yaml'
-        su jenkins -c 'kubectl apply -f service.yaml'
+        su jenkins -c 'export KUBECONFIG=/var/jenkins_home/.kube/config && kubectl get nodes'
+
+        su jenkins -c 'export KUBECONFIG=/var/jenkins_home/.kube/config && kubectl apply -f deployment.yaml'
+
+        su jenkins -c 'export KUBECONFIG=/var/jenkins_home/.kube/config && kubectl apply -f service.yaml'
         '''
             }
         }
