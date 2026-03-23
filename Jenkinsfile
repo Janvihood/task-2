@@ -55,38 +55,6 @@ pipeline {
             }
         }
 
-        stage('Dependency Check Scan') {
-            steps {
-                sh '''
-                echo "Running Dependency Check..."
-
-                mkdir -p reports
-
-                /var/jenkins_home/dependency-check/bin/dependency-check.sh \
-                --project "task-2" \
-                --scan requirements.txt \
-                --format HTML \
-                --out reports \
-                --nvdApiKey 12bb407e-fc03-4403-af1f-0c6c7e20274f \
-                --data /var/jenkins_home/dependency-check-data \
-		--disableAssembly \
-		--disableNodeJS \
-		--disableRetireJS \
-		--disablePyDist \
-		--disablePyPkg
-                '''
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: 'reports/dependency-check-report.html', allowEmptyArchive: true
-                }
-            }
-        }
-
-
-
-
-
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t $IMAGE_NAME .'
