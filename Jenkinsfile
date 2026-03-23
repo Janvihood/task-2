@@ -94,10 +94,11 @@ pipeline {
             steps {
                 sh '''
         echo "Deploying to Kubernetes..."
-	su jenkins -c "kubectl get nodes"
 
-        su jenkins -c "kubectl apply -f deployment.yaml"
-        su jenkins -c "kubectl apply -f service.yaml"
+        su jenkins -c 'kubectl get nodes'
+
+        su jenkins -c 'kubectl apply -f deployment.yaml'
+        su jenkins -c 'kubectl apply -f service.yaml'
         '''
             }
         }
