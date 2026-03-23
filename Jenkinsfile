@@ -72,6 +72,8 @@ pipeline {
 		--disableAssembly \
 		--disableNodeJS \
 		--disableRetireJS \
+		--disablePyDist \
+		--disablePyPkg
                 '''
             }
             post {
