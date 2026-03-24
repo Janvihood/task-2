@@ -49,12 +49,12 @@ pipeline {
 
             echo "========== VERIFY INSIDE DOCKER =========="
             docker run --rm --network host \
-            -v $(pwd):/usr/src \
+            -v $WORKSPACE:/usr/src \
             alpine sh -c "echo 'Inside container:' && ls -la /usr/src && find /usr/src -name '*.py'"
 
             echo "========== RUNNING SONAR =========="
             docker run --rm --network host \
-            -v $(pwd):/usr/src \
+            -v $WORKSPACE:/usr/src \
             -v sonar_cache:/opt/sonar-scanner/.sonar \
             -w /usr/src \
             sonarsource/sonar-scanner-cli \
@@ -62,7 +62,7 @@ pipeline {
             -Dsonar.projectName=task-2 \
             -Dsonar.sources=. \
 	    -Dsonar.inclusions=**/*.py \
-            -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.host.url=http://172.18.0.1:9000 \
             -Dsonar.login=$SONAR_TOKEN
             '''
             }
