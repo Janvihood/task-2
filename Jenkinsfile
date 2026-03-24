@@ -54,7 +54,7 @@ pipeline {
 
             echo "========== RUNNING SONAR =========="
            
-            sonar-scanner \
+            /opt/sonar-scanner/bin/sonar-scanner \
             -Dsonar.projectKey=task-2 \
             -Dsonar.projectName=task-2 \
             -Dsonar.sources=. \
