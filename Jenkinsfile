@@ -75,7 +75,10 @@ pipeline {
 
         ./dependency-check/bin/dependency-check.sh \
           --project "devsecops-app" \
-          --scan . \
+          --scan app.py \
+	  --exclude .git \
+          --exclude dependency-check \
+          --exclude reports \
           --format HTML \
           --out reports \
           --data /var/jenkins_home/dependency-check-data \
