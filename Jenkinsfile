@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = "secure-app"
         SONAR_HOST = "http://localhost:9000"
-        SONAR_TOKEN = "squ_9a31ca45535a6405ec6a49d4d66a8914883b4848"
+        SONAR_TOKEN = "squ_47204c751b4eaec36289ff40daa19004811c7bc2"
         DEPLOYMENT_FILE = "deployment.yaml"
         PATH = "/usr/local/bin:${env.PATH}"
         KUBECONFIG = "/var/jenkins_home/kubeconfig"
