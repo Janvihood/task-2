@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                checkout scm
+                sh 'git clone https://github.com/Janvihood/task-2 .'
             }
          }
 
@@ -93,18 +93,18 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-        echo "Deploying..."
+                echo "Deploying..."
 
-        export KUBECONFIG=/var/jenkins_home/.kube/config
+                export KUBECONFIG=/var/jenkins_home/.kube/config
 
-        echo "Using kubeconfig:"
-        kubectl config view | grep server
+                echo "Using kubeconfig:"
+                kubectl config view | grep server
 
-        kubectl get nodes
+                kubectl get nodes
 
-        kubectl apply -f deployment.yaml
-        kubectl apply -f service.yaml
-        '''
+                kubectl apply -f deployment.yaml
+                kubectl apply -f service.yaml
+                '''
             }
         }
     }
