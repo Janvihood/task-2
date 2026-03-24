@@ -59,7 +59,7 @@ pipeline {
             -Dsonar.projectName=task-2 \
             -Dsonar.sources=. \
             -Dsonar.inclusions=**/*.py \
-            -Dsonar.host.url=http://172.18.0.1:9000 \
+            -Dsonar.host.url=http://sonarqube:9000 \
             -Dsonar.login=$SONAR_TOKEN
             '''
             }
