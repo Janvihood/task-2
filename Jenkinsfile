@@ -61,6 +61,7 @@ pipeline {
             -Dsonar.projectKey=task-2 \
             -Dsonar.projectName=task-2 \
             -Dsonar.sources=. \
+	    -Dsonar.inclusions=**/*.py \
             -Dsonar.host.url=http://localhost:9000 \
             -Dsonar.login=$SONAR_TOKEN
             '''
