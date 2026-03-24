@@ -64,7 +64,25 @@ pipeline {
             '''
             }
         }
+     stage('OWASP Dependency Check') {
+       steps {
+        sh '''
+         echo "========== OWASP SCAN =========="
 
+        mkdir -p reports
+
+        chmod +x dependency-check/bin/dependency-check.sh
+
+        ./dependency-check/bin/dependency-check.sh \
+          --project "devsecops-app" \
+          --scan . \
+          --format HTML \
+          --out reports \
+          --data /var/jenkins_home/dependency-check-data \
+          --noupdate
+        '''
+    }
+}
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t $IMAGE_NAME .'
