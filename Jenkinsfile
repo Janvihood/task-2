@@ -49,7 +49,7 @@ pipeline {
 
             echo "========== VERIFY INSIDE DOCKER =========="
             docker run --rm --network host \
-            -v /workspace:/usr/src \
+            -v $workspace:/usr/src \
             alpine sh -c "echo 'Inside container:' && ls -la /usr/src && find /usr/src -name '*.py'"
 
             echo "========== RUNNING SONAR =========="
@@ -75,9 +75,11 @@ pipeline {
 
         stage('Trivy Image Scan') {
             steps {
-                sh '''
-        trivy image --timeout 10m secure-app:latest || true
-        '''
+                 sh '''
+                 docker run --rm \
+                 -v /var/run/docker.sock:/var/run/docker.sock \
+                 aquasec/trivy image $IMAGE_NAME:latest
+                 '''
             }
         }
 
