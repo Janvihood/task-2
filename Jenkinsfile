@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = "secure-app"
         SONAR_HOST = "http://localhost:9000"
-        SONAR_TOKEN = "squ_44bfb9d597524e9fedfc9b576e5c69ff9a6a046d"
+        SONAR_TOKEN = "squ_9a31ca45535a6405ec6a49d4d66a8914883b4848"
         DEPLOYMENT_FILE = "deployment.yaml"
         PATH = "/usr/local/bin:${env.PATH}"
         KUBECONFIG = "/var/jenkins_home/kubeconfig"
@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                sh 'git clone https://github.com/Janvihood/task-2 .'
+                checkout scm
             }
          }
 
