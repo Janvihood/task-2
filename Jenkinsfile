@@ -98,7 +98,7 @@ pipeline {
                  docker run --rm \
                  -v /var/run/docker.sock:/var/run/docker.sock \
                  aquasec/trivy image \
-                 --timeout 10m \
+                 --timeout 20m \
                  --scanners vuln \
                  --severity HIGH,CRITICAL \
                  --no-progress \
