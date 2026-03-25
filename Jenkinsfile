@@ -97,7 +97,8 @@ pipeline {
                  sh '''
                  docker run --rm \
                  -v /var/run/docker.sock:/var/run/docker.sock \
-                 aquasec/trivy image $IMAGE_NAME:latest
+		 -v trivy_cache:/root/.cache/trivy \
+                 aquasec/trivy image $IMAGE_NAME
                  '''
             }
         }
