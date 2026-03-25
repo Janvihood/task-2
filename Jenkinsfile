@@ -97,8 +97,13 @@ pipeline {
                  sh '''
                  docker run --rm \
                  -v /var/run/docker.sock:/var/run/docker.sock \
-		 -v trivy_cache:/root/.cache/trivy \
-                 aquasec/trivy image $IMAGE_NAME
+                 aquasec/trivy image \
+                 --timeout 10m \
+                 --scanners vuln \
+                 --severity HIGH,CRITICAL \
+                 --no-progress \
+                 --skip-db-update \
+                 $IMAGE_NAME:latest
                  '''
             }
         }
