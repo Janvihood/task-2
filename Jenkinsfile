@@ -102,7 +102,6 @@ pipeline {
                  --scanners vuln \
                  --severity HIGH,CRITICAL \
                  --no-progress \
-                 --skip-db-update \
                  $IMAGE_NAME:latest
                  '''
             }
